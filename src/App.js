@@ -102,7 +102,7 @@ export default function App() {
                 </div>
                 <footer className="text-center mt-6 text-xs text-gray-400">
                   <p>Prinsip Inti: "No Overwhelming UX" - Maksimal 3 Elemen Interaktif per Layar.</p>
-                  <p>&copy; 2025 BizFeasibility App. Dibuat dengan React, Zustand, dan ✨ Gemini.</p>
+                  <p>&copy; 2025 Mahasin Hadiyatulloh <br/> BizFeasibility App</p>
                 </footer>
               </main>
             </div>
