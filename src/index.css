@@ -1,0 +1,345 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Custom slider styles */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #22c55e;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.slider::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #22c55e;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Animation classes */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Custom CSS for Homepage Animations and Effects */
+
+/* Matrix Data Stream Animation */
+.matrix-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.matrix-column {
+  position: absolute;
+  top: -100%;
+  width: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  animation: matrixFall linear infinite;
+}
+
+.matrix-character {
+  color: #0071e3;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 113, 227, 0.8);
+  opacity: 0;
+  animation: matrixFade linear infinite;
+}
+
+/* Generate multiple columns with different speeds and delays */
+.matrix-column:nth-child(1) { left: 5%; animation-duration: 8s; animation-delay: 0s; }
+.matrix-column:nth-child(2) { left: 15%; animation-duration: 12s; animation-delay: 1s; }
+.matrix-column:nth-child(3) { left: 25%; animation-duration: 10s; animation-delay: 2s; }
+.matrix-column:nth-child(4) { left: 35%; animation-duration: 9s; animation-delay: 0.5s; }
+.matrix-column:nth-child(5) { left: 45%; animation-duration: 11s; animation-delay: 1.5s; }
+.matrix-column:nth-child(6) { left: 55%; animation-duration: 7s; animation-delay: 0.8s; }
+.matrix-column:nth-child(7) { left: 65%; animation-duration: 13s; animation-delay: 2.5s; }
+.matrix-column:nth-child(8) { left: 75%; animation-duration: 8.5s; animation-delay: 1.2s; }
+.matrix-column:nth-child(9) { left: 85%; animation-duration: 10.5s; animation-delay: 0.3s; }
+.matrix-column:nth-child(10) { left: 95%; animation-duration: 9.5s; animation-delay: 1.8s; }
+
+/* Matrix fall animation */
+@keyframes matrixFall {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* Matrix fade animation */
+@keyframes matrixFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  10% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Hero Dynamic Animations */
+.hero-dynamic-widget {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-dynamic-widget::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #0071e3, #005bb5);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.hero-dynamic-widget:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.hero-dynamic-widget:hover::before {
+  transform: scaleX(1);
+}
+
+/* ROI Line Chart Animation */
+.hero-dynamic-roi-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawLine 1.2s ease-out 1.2s forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Bar Chart Animation */
+.hero-dynamic-bar-rect {
+  transform-origin: bottom;
+  animation: barGrow 0.8s ease-out 1.4s forwards;
+}
+
+.hero-dynamic-bar-rect:nth-child(1) {
+  animation-delay: 1.4s;
+}
+
+.hero-dynamic-bar-rect:nth-child(2) {
+  animation-delay: 1.5s;
+}
+
+.hero-dynamic-bar-rect:nth-child(3) {
+  animation-delay: 1.6s;
+}
+
+@keyframes barGrow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Pie Chart Animation */
+.hero-dynamic-pie-slice {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawPie 1.0s ease-out 1.8s forwards;
+}
+
+.hero-dynamic-pie-slice:nth-child(2) {
+  animation-delay: 2.0s;
+}
+
+@keyframes drawPie {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Floating Animation for ROI Card */
+.hero-dynamic-roi {
+  animation: float 4s ease-in-out 2.0s infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Background Blob Animation */
+.hero-dynamic-blob {
+  animation: blobPulse 6s ease-in-out infinite;
+}
+
+@keyframes blobPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide In Right Animation */
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Ripple Effect Animation */
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Responsive matrix columns */
+@media (max-width: 768px) {
+  .matrix-column {
+    width: 15px;
+  }
+  .matrix-character {
+    font-size: 12px;
+  }
+  .matrix-column:nth-child(1) { left: 10%; }
+  .matrix-column:nth-child(2) { left: 30%; }
+  .matrix-column:nth-child(3) { left: 50%; }
+  .matrix-column:nth-child(4) { left: 70%; }
+  .matrix-column:nth-child(5) { left: 90%; }
+  .matrix-column:nth-child(6),
+  .matrix-column:nth-child(7),
+  .matrix-column:nth-child(8),
+  .matrix-column:nth-child(9),
+  .matrix-column:nth-child(10) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .matrix-column {
+    width: 12px;
+  }
+  .matrix-character {
+    font-size: 10px;
+  }
+  .matrix-column:nth-child(1) { left: 20%; }
+  .matrix-column:nth-child(2) { left: 60%; }
+  .matrix-column:nth-child(3),
+  .matrix-column:nth-child(4),
+  .matrix-column:nth-child(5) {
+    display: none;
+  }
+}
+
+/* Loading Animation */
+.loader {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Theme Management */
+.light-mode {
+  --bg-gradient-start: #F0F2F5;
+  --bg-gradient-end: #FFFFFF;
+  --text-color: #333;
+  --navbar-bg: rgba(255, 255, 255, 0.9);
+  --card-bg: rgba(240, 240, 240, 0.8);
+  --card-border: rgba(200, 200, 200, 0.5);
+}
+
+/* Dark Mode Defaults */
+:root {
+  --bg-gradient-start: #1A2A3A;
+  --bg-gradient-end: #2C3E50;
+  --text-color: white;
+  --navbar-bg: rgba(26, 42, 58, 0.8);
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+} 

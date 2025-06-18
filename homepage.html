@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizFeasibility Pro - Analisis Kelayakan Bisnis Profesional</title>
+    <!-- Three.js is included for potential future 3D visualizations, though not used in current 2D mockup -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        /* CSS Variables for Theme Management */
+        :root {
+            /* Dark Mode Defaults */
+            --bg-gradient-start: #1A2A3A;
+            --bg-gradient-end: #2C3E50;
+            --text-color: white;
+            --navbar-bg: rgba(26, 42, 58, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --mockup-content-bg: rgba(0, 0, 0, 0.1);
+            --footer-bg: rgba(0, 0, 0, 0.2);
+            --highlight-color-start: #3498DB;
+            --highlight-color-end: #2980B9;
+            --cta-section-bg-start: #2980B9;
+            --cta-section-bg-end: #34495E;
+            --btn-white-text: #1A2A3A;
+        }
+
+        /* Light Mode Overrides */
+        body.light-mode {
+            --bg-gradient-start: #F0F2F5; /* Light gray-blue */
+            --bg-gradient-end: #FFFFFF;   /* White */
+            --text-color: #333;           /* Dark gray for text */
+            --navbar-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: rgba(240, 240, 240, 0.8);
+            --card-border: rgba(200, 200, 200, 0.5);
+            --mockup-content-bg: rgba(255, 255, 255, 0.9);
+            --footer-bg: rgba(240, 240, 240, 0.8);
+            --highlight-color-start: #2980B9; /* Keep blue accent */
+            --highlight-color-end: #3498DB; /* Keep blue accent */
+            --cta-section-bg-start: #3498DB;
+            --cta-section-bg-end: #667eea;
+            --btn-white-text: #333; /* Dark text for white button */
+        }
+
+        /* Base styles and box-sizing reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling using CSS variables */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--text-color);
+            overflow-x: hidden;
+            transition: background 0.5s ease, color 0.5s ease; /* Smooth transition for theme change */
+        }
+
+        /* Container for content width limitation */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation Bar Styling */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        /* Logo styling with a professional blue gradient */
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--highlight-color-start), var(--highlight-color-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Navigation links styling */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color); /* Uses text color variable */
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--highlight-color-start); /* Uses highlight color variable */
+            transform: translateY(-2px);
+        }
+
+        /* Call-to-action button styling (used in navbar) */
+        .cta-button {
+            background: linear-gradient(45deg, var(--highlight-color-start), var(--highlight-color-end));
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-button {
+            background: none;
+            border: 2px solid var(--text-color);
+            border-radius: 50px;
+            color: var(--text-color);
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-button:hover {
+            background: var(--highlight-color-start);
+            border-color: var(--highlight-color-start);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Hero Section Styling */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--text-color), var(--text-color)); /* Uses text color for white in dark mode, dark for light mode */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Highlighted text in hero section with professional blue gradient */
+        .hero-text .highlight {
+            background: linear-gradient(45deg, var(--highlight-color-start), var(--highlight-color-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Primary button styling */
+        .btn-primary {
+            background: linear-gradient(45deg, var(--highlight-color-start), var(--highlight-color-end));
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.1rem;
+        }
+
+        /* Secondary button styling */
+        .btn-secondary {
+            background: var(--card-bg); /* Uses card background for transparency */
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--card-border); /* Uses card border for outline */
+            border-radius: 50px;
+            color: var(--text-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.1rem;
+        }
+
+        /* Hover effects for buttons */
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2); /* Slightly more opaque on hover for both themes */
+            transform: translateY(-3px);
+        }
+
+        /* Hero Visual - Mockup Container */
+        .hero-visual {
+            position: relative;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Dashboard mockup styling */
+        .dashboard-mockup {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-mockup:hover {
+            transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+        }
+
+        .mockup-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* Mockup traffic light dots (colors adjusted for harmony) */
+        .dot-red { background: #E74C3C; } /* Alizarin */
+        .dot-yellow { background: #F1C40F; } /* Sunflower */
+        .dot-green { background: #2ECC71; } /* Emerald */
+
+        /* Mockup content area */
+        .mockup-content {
+            background: var(--mockup-content-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            min-height: 400px;
+        }
+
+        /* Metric card inside mockup */
+        .metric-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Metric values with professional blue accent */
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--highlight-color-start);
+        }
+
+        /* Features Section Styling */
+        .features {
+            padding: 8rem 0;
+            background: var(--footer-bg); /* Using footer background for slight distinction */
+            backdrop-filter: blur(20px);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Feature card styling */
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--card-border);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1); /* Slightly more opaque on hover for both themes */
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Statistics Section Styling */
+        .stats {
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            opacity: 0.9;
+        }
+
+        /* Statistic numbers with professional blue gradient */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--highlight-color-start), var(--highlight-color-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+
+        /* CTA Section Styling */
+        .cta-section {
+            padding: 8rem 0;
+            background: linear-gradient(45deg, var(--cta-section-bg-start), var(--cta-section-bg-end));
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* White button for CTA */
+        .btn-white {
+            background: white;
+            color: var(--btn-white-text); /* Uses variable for text color */
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.1rem;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer Styling */
+        .footer {
+            background: var(--footer-bg);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer p {
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--highlight-color-start);
+        }
+
+        /* Floating Elements Styling (for background decoration) */
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+            font-size: 5rem;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
+        .floating-element:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Responsive Design for smaller screens */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none; /* Hide nav links on small screens, will be managed by mobile menu JS */
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-visual {
+                height: auto;
+                margin-top: 2rem;
+                justify-content: center;
+            }
+
+            .dashboard-mockup {
+                transform: none;
+                margin: 0 auto;
+                max-width: 90%;
+            }
+
+            .theme-toggle-button {
+                display: none; /* Hide on very small screens if space is tight */
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading Animation Styles */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .main-features {
+            padding: 8rem 0 6rem 0;
+            background: var(--footer-bg);
+            backdrop-filter: blur(20px);
+        }
+        .main-features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .main-features-mockup {
+            display: flex;
+            justify-content: center;
+        }
+        .main-features-list {
+            color: var(--text-color);
+        }
+        .main-features-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+        .main-features-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .main-feature-item {
+            margin-bottom: 2.5rem;
+            opacity: 0; /* For GSAP animation */
+            transform: translateX(50px); /* For GSAP animation */
+        }
+        .main-feature-item h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .main-feature-item p {
+            font-size: 1.05rem;
+            opacity: 0.9;
+        }
+        @media (max-width: 900px) {
+            .main-features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .main-features-mockup {
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Glassbox Hero Section Styles */
+        .hero-glassbox {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 60% 40%, #183b6b 60%, #0a1830 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-glassbox-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            min-height: 80vh;
+        }
+        .hero-glassbox-left {
+            color: #fff;
+            z-index: 2;
+        }
+        .hero-glassbox-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.2rem;
+            letter-spacing: -1px;
+        }
+        .hero-glassbox-title span {
+            color: #7fd7ff;
+            display: inline-block;
+        }
+        .hero-glassbox-subtitle {
+            font-size: 1.15rem;
+            color: #b6d6f6;
+            margin-bottom: 2.2rem;
+            max-width: 420px;
+        }
+        .hero-glassbox-btn {
+            display: inline-block;
+            background: #7fd7ff;
+            color: #0a1830;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 0.9rem 2.2rem;
+            border-radius: 2rem;
+            box-shadow: 0 4px 24px 0 rgba(127,215,255,0.15);
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .hero-glassbox-btn:hover {
+            background: #4ecbfa;
+            transform: translateY(-2px) scale(1.04);
+        }
+        .hero-glassbox-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-glassbox-cube {
+            width: 340px;
+            max-width: 90vw;
+            filter: drop-shadow(0 8px 40px #0a1830cc);
+            border-radius: 18px;
+        }
+        @media (max-width: 900px) {
+            .hero-glassbox-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                min-height: unset;
+            }
+            .hero-glassbox-right {
+                margin-top: 2rem;
+            }
+            .hero-glassbox-title {
+                font-size: 2.1rem;
+            }
+        }
+
+        .hero-infographic {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .dashboard-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 16px #0a183033;
+            margin-bottom: 0.5rem;
+            min-width: 120px;
+            text-align: left;
+        }
+        .dashboard-title {
+            font-size: 1rem;
+            color: #b6d6f6;
+            font-weight: 600;
+        }
+        .dashboard-value {
+            font-size: 1.5rem;
+            color: #7fd7ff;
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+        }
+        .bar-chart {
+            margin-bottom: 0.5rem;
+        }
+        .pie-chart {
+            margin-bottom: 0.5rem;
+        }
+        .small-cube {
+            margin-top: 1.5rem;
+            align-self: flex-end;
+        }
+        @media (max-width: 900px) {
+            .hero-infographic {
+                align-items: center;
+            }
+            .small-cube {
+                align-self: center;
+            }
+        }
+
+        /* HERO SECTION DYNAMIC APPLE-STYLE */
+        .hero-dynamic {
+            background: #f8f8f8;
+            padding: 120px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .hero-dynamic-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 0 24px;
+        }
+        
+        .hero-dynamic-left {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+        
+        .hero-dynamic-title {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 56px;
+            font-weight: bold;
+            line-height: 1.2;
+            color: #222;
+            letter-spacing: -0.5px;
+            margin-bottom: 24px;
+        }
+        
+        .hero-dynamic-subtitle {
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 18px;
+            color: #555;
+            line-height: 1.5;
+            font-weight: 400;
+            margin-bottom: 32px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+        
+        .hero-dynamic-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        }
+        
+        .hero-dynamic-btn {
+            display: inline-block;
+            height: 48px;
+            padding: 0 36px;
+            border-radius: 24px;
+            background: linear-gradient(90deg, #0071e3 0%, #005bb5 100%);
+            color: #fff;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            line-height: 48px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-dynamic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #005bb5 0%, #0071e3 100%);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+        
+        .hero-dynamic-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+        }
+        
+        .hero-dynamic-btn:hover::before {
+            left: 0;
+        }
+        
+        .hero-dynamic-link {
+            color: #0071e3;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1.5px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-dynamic-link:hover {
+            border-bottom-color: #0071e3;
+            transform: translateY(-1px);
+        }
+        
+        .hero-dynamic-right {
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Background Accent Blob */
+        .hero-dynamic-blob {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 300px;
+            background: linear-gradient(135deg, #e3f1fc 0%, #b3d8fa 60%, #e3f1fc 100%);
+            border-radius: 100px 120px 100px 120px/120px 100px 120px 100px;
+            filter: blur(32px);
+            opacity: 0.8;
+            z-index: 0;
+            animation: blobPulse 6s ease-in-out infinite;
+        }
+        
+        /* Animated Data Widgets */
+        .hero-dynamic-widgets {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .hero-dynamic-widget {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            padding: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-dynamic-widget::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #0071e3, #005bb5);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .hero-dynamic-widget:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .hero-dynamic-widget:hover::before {
+            transform: scaleX(1);
+        }
+        
+        /* ROI Card */
+        .hero-dynamic-roi {
+            width: 200px;
+            height: 120px;
+            opacity: 0;
+            transform: translateX(40px);
+            animation: slideInRight 0.8s ease-out 0.8s forwards;
+        }
+        
+        .hero-dynamic-roi-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .hero-dynamic-widget-label {
+            font-size: 13px;
+            color: #0071e3;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+        
+        .hero-dynamic-widget-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 8px;
+        }
+        
+        .hero-dynamic-roi-chart {
+            width: 60px;
+            height: 24px;
+        }
+        
+        .hero-dynamic-roi-line {
+            stroke: #0071e3;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawLine 1.2s ease-out 1.2s forwards;
+        }
+        
+        /* Bar Chart Widget */
+        .hero-dynamic-bar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            opacity: 0;
+            transform: translateX(40px);
+            animation: slideInRight 0.8s ease-out 1.0s forwards;
+            align-self: flex-end;
+        }
+        
+        .hero-dynamic-bar-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .hero-dynamic-bar-rect {
+            fill: #0071e3;
+            transform-origin: bottom;
+            animation: barGrow 0.8s ease-out 1.4s forwards;
+        }
+        
+        .hero-dynamic-bar-rect:nth-child(1) {
+            animation-delay: 1.4s;
+        }
+        
+        .hero-dynamic-bar-rect:nth-child(2) {
+            animation-delay: 1.5s;
+        }
+        
+        .hero-dynamic-bar-rect:nth-child(3) {
+            animation-delay: 1.6s;
+        }
+        
+        /* Pie Chart Widget */
+        .hero-dynamic-pie {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            opacity: 0;
+            transform: translateX(40px);
+            animation: slideInRight 0.8s ease-out 1.2s forwards;
+            align-self: flex-end;
+        }
+        
+        .hero-dynamic-pie-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .hero-dynamic-pie-slice {
+            fill: #0071e3;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawPie 1.0s ease-out 1.8s forwards;
+        }
+        
+        .hero-dynamic-pie-slice:nth-child(2) {
+            fill: #005bb5;
+            animation-delay: 2.0s;
+        }
+        
+        /* Floating Animation for ROI Card */
+        .hero-dynamic-roi {
+            animation: slideInRight 0.8s ease-out 0.8s forwards, float 4s ease-in-out 2.0s infinite;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .hero-dynamic-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .hero-dynamic-title {
+                font-size: 42px;
+            }
+            
+            .hero-dynamic-right {
+                min-height: 300px;
+            }
+            
+            .hero-dynamic-blob {
+                width: 300px;
+                height: 200px;
+            }
+            
+            .hero-dynamic-widgets {
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .hero-dynamic-title {
+                font-size: 32px;
+            }
+            
+            .hero-dynamic-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .hero-dynamic-right {
+                min-height: 250px;
+            }
+            
+            .hero-dynamic-blob {
+                width: 200px;
+                height: 150px;
+            }
+        }
+        
+        /* Animation Keyframes */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes blobPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        @keyframes drawLine {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @keyframes barGrow {
+            from {
+                transform: scaleY(0);
+            }
+            to {
+                transform: scaleY(1);
+            }
+        }
+        
+        @keyframes drawPie {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Matrix Data Stream Animation */
+        .matrix-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            width: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            animation: matrixFall linear infinite;
+        }
+
+        .matrix-character {
+            color: #0071e3;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 113, 227, 0.8);
+            opacity: 0;
+            animation: matrixFade linear infinite;
+        }
+
+        /* Generate multiple columns with different speeds and delays */
+        .matrix-column:nth-child(1) { left: 5%; animation-duration: 8s; animation-delay: 0s; }
+        .matrix-column:nth-child(2) { left: 15%; animation-duration: 12s; animation-delay: 1s; }
+        .matrix-column:nth-child(3) { left: 25%; animation-duration: 10s; animation-delay: 2s; }
+        .matrix-column:nth-child(4) { left: 35%; animation-duration: 9s; animation-delay: 0.5s; }
+        .matrix-column:nth-child(5) { left: 45%; animation-duration: 11s; animation-delay: 1.5s; }
+        .matrix-column:nth-child(6) { left: 55%; animation-duration: 7s; animation-delay: 0.8s; }
+        .matrix-column:nth-child(7) { left: 65%; animation-duration: 13s; animation-delay: 2.5s; }
+        .matrix-column:nth-child(8) { left: 75%; animation-duration: 8.5s; animation-delay: 1.2s; }
+        .matrix-column:nth-child(9) { left: 85%; animation-duration: 10.5s; animation-delay: 0.3s; }
+        .matrix-column:nth-child(10) { left: 95%; animation-duration: 9.5s; animation-delay: 1.8s; }
+
+        /* Matrix fall animation */
+        @keyframes matrixFall {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* Matrix fade animation */
+        @keyframes matrixFade {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            10% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        /* Responsive matrix columns */
+        @media (max-width: 768px) {
+            .matrix-column {
+                width: 15px;
+            }
+            .matrix-character {
+                font-size: 12px;
+            }
+            .matrix-column:nth-child(1) { left: 10%; }
+            .matrix-column:nth-child(2) { left: 30%; }
+            .matrix-column:nth-child(3) { left: 50%; }
+            .matrix-column:nth-child(4) { left: 70%; }
+            .matrix-column:nth-child(5) { left: 90%; }
+            .matrix-column:nth-child(6),
+            .matrix-column:nth-child(7),
+            .matrix-column:nth-child(8),
+            .matrix-column:nth-child(9),
+            .matrix-column:nth-child(10) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .matrix-column {
+                width: 12px;
+            }
+            .matrix-character {
+                font-size: 10px;
+            }
+            .matrix-column:nth-child(1) { left: 20%; }
+            .matrix-column:nth-child(2) { left: 60%; }
+            .matrix-column:nth-child(3),
+            .matrix-column:nth-child(4),
+            .matrix-column:nth-child(5) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen (visible on page load, then fades out) -->
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">BizFeasibility Pro 🚀</div>
+                <div class="nav-links">
+                    <a href="#features">Fitur</a>
+                    <a href="#how-it-works">Cara Kerja</a>
+                    <a href="#pricing">Harga</a>
+                    <a href="#contact">Kontak</a>
+                </div>
+                <!-- Theme Toggle Button Added Here -->
+                <button id="theme-toggle" class="theme-toggle-button">💡 Light Mode</button>
+                <a href="#" class="cta-button">Mulai Sekarang</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION DYNAMIC APPLE-STYLE -->
+    <section class="hero-dynamic" id="hero-dynamic-3d">
+        <!-- 3D Cubes Canvas Background -->
+        <div class="hero-3d-canvas-bg" style="position:absolute;inset:0;z-index:2;pointer-events:none;display:flex;align-items:center;justify-content:center;">
+            <canvas id="hero-3d-canvas" width="400" height="300" style="opacity:0.55;filter:blur(0.5px);"></canvas>
+        </div>
+        <!-- Matrix Data Stream Background -->
+        <div class="matrix-container" id="matrix-container">
+            <!-- Matrix columns will be generated by JavaScript -->
+        </div>
+        <div class="hero-dynamic-container">
+            <!-- LEFT COLUMN -->
+            <div class="hero-dynamic-left">
+                <h1 class="hero-dynamic-title">Analisis Kelayakan Bisnis Profesional</h1>
+                <p class="hero-dynamic-subtitle">Platform terdepan untuk menganalisis kelayakan bisnis dengan AI, dilengkapi kalkulasi keuangan akurat dan template industri terlengkap.</p>
+                <div class="hero-dynamic-actions">
+                    <a href="#" class="hero-dynamic-btn">Mulai Analisis</a>
+                    <a href="#" class="hero-dynamic-link">Lihat Demo 1 Menit &rarr;</a>
+                </div>
+            </div>
+            <!-- RIGHT COLUMN -->
+            <div class="hero-dynamic-right">
+                <!-- Background Accent Blob -->
+                <div class="hero-dynamic-blob"></div>
+                
+                <!-- Animated Data Widgets -->
+                <div class="hero-dynamic-widgets">
+                    <!-- ROI Card -->
+                    <div class="hero-dynamic-widget hero-dynamic-roi">
+                        <div class="hero-dynamic-roi-content">
+                            <span class="hero-dynamic-widget-label">ROI</span>
+                            <span class="hero-dynamic-widget-value">35.2%</span>
+                            <svg class="hero-dynamic-roi-chart" viewBox="0 0 60 24" fill="none">
+                                <polyline class="hero-dynamic-roi-line" points="0,20 15,12 30,16 45,6 60,10" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Bar Chart Widget -->
+                    <div class="hero-dynamic-widget hero-dynamic-bar">
+                        <div class="hero-dynamic-bar-content">
+                            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                                <rect class="hero-dynamic-bar-rect" x="4" y="18" width="6" height="14" rx="2" />
+                                <rect class="hero-dynamic-bar-rect" x="14" y="10" width="6" height="22" rx="2" />
+                                <rect class="hero-dynamic-bar-rect" x="24" y="24" width="6" height="8" rx="2" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Pie Chart Widget -->
+                    <div class="hero-dynamic-widget hero-dynamic-pie">
+                        <div class="hero-dynamic-pie-content">
+                            <svg width="36" height="36" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="16" fill="#e3f1fc" />
+                                <path class="hero-dynamic-pie-slice" d="M18 18 L18 2 A16 16 0 1 1 6.7 29.3 Z" />
+                                <path class="hero-dynamic-pie-slice" d="M18 18 L18 2 A16 16 0 0 1 34 18 Z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section: Highlights key functionalities -->
+    <section class="main-features" id="features">
+        <div class="container main-features-grid">
+            <div class="main-features-mockup">
+                <div class="dashboard-mockup">
+                    <div class="mockup-header">
+                        <div class="mockup-dot dot-red"></div>
+                        <div class="mockup-dot dot-yellow"></div>
+                        <div class="mockup-dot dot-green"></div>
+                    </div>
+                    <div class="mockup-content">
+                        <div class="metric-card">
+                            <span>ROI</span>
+                            <span class="metric-value">35.2%</span>
+                        </div>
+                        <div class="metric-card">
+                            <span>IRR</span>
+                            <span class="metric-value">28.5%</span>
+                        </div>
+                        <div class="metric-card">
+                            <span>Payback Period</span>
+                            <span class="metric-value">2.1 tahun</span>
+                        </div>
+                        <div class="metric-card">
+                            <span>BEP</span>
+                            <span class="metric-value">850 unit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-features-list">
+                <h2 class="main-features-title">Detail Fitur Utama</h2>
+                <ul>
+                    <li class="main-feature-item">
+                        <h3>AI Bisnis</h3>
+                        <p>Dapatkan wawasan bisnis cerdas dan ide inovatif dengan kekuatan AI terdepan.</p>
+                    </li>
+                    <li class="main-feature-item">
+                        <h3>Kalkulator Pro</h3>
+                        <p>Hitung ROI, IRR, dan Payback Period dengan akurasi tinggi untuk keputusan finansial yang solid.</p>
+                    </li>
+                    <li class="main-feature-item">
+                        <h3>Scenario Simulator</h3>
+                        <p>Analisis berbagai skenario pasar dan keuangan untuk memahami dampak potensial pada bisnis Anda.</p>
+                    </li>
+                    <li class="main-feature-item">
+                        <h3>Laporan Otomatis</h3>
+                        <p>Hasilkan laporan kelayakan bisnis siap presentasi dalam format Excel dan PDF secara otomatis.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section: Displays impressive numbers -->
+    <section class="stats">
+        <div class="container">
+            <h2 class="section-title">Dipercaya Ribuan Pengusaha</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Bisnis Dianalisis</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Template Industri</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Akurasi Prediksi</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call-to-Action Section: Encourages user engagement -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Mulai Analisis Bisnis Anda Sekarang</h2>
+                <p>Dapatkan laporan kelayakan bisnis profesional dalam hitungan menit. Gratis untuk analisis pertama!</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn-white">Mulai Gratis</a>
+                    <a href="#" class="btn-secondary">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer: Copyright and navigation links -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 BizFeasibility Pro. Semua hak dilindungi.</p>
+            <p>Dibuat dengan ❤️ untuk pengusaha Indonesia</p>
+            <div class="footer-links">
+                <a href="#">Syarat & Ketentuan</a>
+                <a href="#">Kebijakan Privasi</a>
+                <a href="#">Hubungi Kami</a>
+                <a href="#">FAQ</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for Loading Animation
+        window.addEventListener('load', function() {
+            const loading = document.getElementById('loading');
+            // Hides the loading screen after 1 second
+            setTimeout(() => {
+                loading.classList.add('hidden');
+            }, 1000);
+        });
+
+        // JavaScript for Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            // Changes navbar background transparency and blur on scroll
+            if (window.scrollY > 100) {
+                // If the body has light-mode class, use a lighter background for navbar on scroll
+                if (document.body.classList.contains('light-mode')) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.9)';
+                } else {
+                    navbar.style.background = 'rgba(26, 42, 58, 0.9)';
+                }
+                navbar.style.backdropFilter = 'blur(30px)';
+            } else {
+                // Restore original transparency based on current theme
+                if (document.body.classList.contains('light-mode')) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.8)';
+                } else {
+                    navbar.style.background = 'rgba(26, 42, 58, 0.8)';
+                }
+                navbar.style.backdropFilter = 'blur(20px)';
+            }
+        });
+
+        // JavaScript for Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevents default jump behavior
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth', // Smooth scroll animation
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // JavaScript to Animate Numbers when they come into view
+        const animateNumbers = () => {
+            const numbers = document.querySelectorAll('.stat-number');
+            // Intersection Observer API to detect when elements are visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const number = entry.target;
+                        const finalNumber = number.textContent;
+                        // Checks for percentage or plus sign in the number
+                        const isPercentage = finalNumber.includes('%');
+                        const isPlus = finalNumber.includes('+');
+                        const cleanNumber = parseInt(finalNumber.replace(/[^\d]/g, '')); // Extracts numeric value
+                        
+                        let currentNumber = 0;
+                        const increment = cleanNumber / 100; // Determines increment step
+                        
+                        const counter = setInterval(() => {
+                            currentNumber += increment;
+                            if (currentNumber >= cleanNumber) {
+                                number.textContent = finalNumber; // Set to final value
+                                clearInterval(counter); // Stop animation
+                            } else {
+                                let displayNumber = Math.floor(currentNumber);
+                                if (isPercentage) displayNumber += '%';
+                                if (isPlus) displayNumber += '+';
+                                number.textContent = displayNumber;
+                            }
+                        }, 20); // Update every 20ms
+                        
+                        observer.unobserve(entry.target); // Stop observing after animation
+                    }
+                });
+            });
+            
+            numbers.forEach(number => observer.observe(number)); // Observe each stat number
+        };
+
+        // JavaScript for Parallax Effect for Floating Elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5; // Controls the parallax speed
+            
+            document.querySelectorAll('.floating-element').forEach((element, index) => {
+                const speed = (index + 1) * 0.3; // Different speeds for elements
+                element.style.transform = `translateY(${rate * speed}px)`;
+            });
+        });
+
+        // Initialize animations on DOM content loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            animateNumbers();
+        });
+
+        // Add hover effects to feature cards (additional smooth transitions)
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Mobile Menu Toggle (creates a hamburger menu button if screen is small)
+        const createMobileMenu = () => {
+            const navbar = document.querySelector('.navbar .container .nav-content');
+            let mobileButton = document.querySelector('.mobile-menu-button'); // Check if button already exists
+
+            if (window.innerWidth <= 768) {
+                if (!mobileButton) { // Create button only if it doesn't exist
+                    mobileButton = document.createElement('button');
+                    mobileButton.innerHTML = '☰';
+                    mobileButton.classList.add('mobile-menu-button'); // Add a class for specific styling
+                    mobileButton.style.cssText = `
+                        background: none;
+                        border: none;
+                        color: var(--text-color); /* Uses theme text color */
+                        font-size: 1.8rem;
+                        cursor: pointer;
+                        display: block; /* Show only on mobile */
+                        order: 2; /* Position after logo, before CTA button */
+                    `;
+                    navbar.appendChild(mobileButton);
+
+                    const navLinks = document.querySelector('.nav-links');
+                    navLinks.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100vh;
+                        background: rgba(26, 42, 58, 0.95); /* Darker background when open */
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 2rem;
+                        transform: translateX(100%);
+                        transition: transform 0.3s ease-in-out;
+                        z-index: 999;
+                    `;
+
+                    mobileButton.addEventListener('click', () => {
+                        navLinks.style.transform = navLinks.style.transform === 'translateX(0%)' ? 'translateX(100%)' : 'translateX(0%)';
+                    });
+
+                    // Close menu when a link is clicked
+                    navLinks.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', () => {
+                            navLinks.style.transform = 'translateX(100%)';
+                        });
+                    });
+                }
+            } else {
+                if (mobileButton) {
+                    mobileButton.remove();
+                    const navLinks = document.querySelector('.nav-links');
+                    navLinks.style.cssText = `
+                        display: flex;
+                        position: static;
+                        height: auto;
+                        background: none;
+                        transform: none;
+                        gap: 2rem;
+                        z-index: auto;
+                    `;
+                }
+            }
+        };
+
+        // Initialize mobile menu on load and resize
+        window.addEventListener('resize', createMobileMenu);
+        createMobileMenu();
+
+        // Theme Switcher Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Function to apply theme
+        const applyTheme = (isLightMode) => {
+            if (isLightMode) {
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '💡 Dark Mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                themeToggleBtn.textContent = '☀️ Light Mode';
+                localStorage.setItem('theme', 'dark');
+            }
+            // Manually trigger scroll effect to update navbar background immediately
+            window.dispatchEvent(new Event('scroll'));
+        };
+
+        // Check for saved theme preference on load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            applyTheme(true);
+        } else {
+            // Default to dark mode if no preference or 'dark' is saved
+            applyTheme(false);
+        }
+
+        // Event listener for theme toggle button
+        themeToggleBtn.addEventListener('click', () => {
+            // Toggle the theme
+            applyTheme(!body.classList.contains('light-mode'));
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.gsap && window.ScrollTrigger) {
+                gsap.registerPlugin(ScrollTrigger);
+                gsap.from('.main-features-mockup', {
+                    scrollTrigger: {
+                        trigger: '.main-features',
+                        start: 'top 80%',
+                    },
+                    x: -80,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power3.out'
+                });
+                gsap.utils.toArray('.main-feature-item').forEach((item, i) => {
+                    gsap.to(item, {
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 85%',
+                        },
+                        x: 0,
+                        opacity: 1,
+                        duration: 0.8,
+                        delay: i * 0.15,
+                        ease: 'power3.out'
+                    });
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.gsap) {
+                gsap.from('.hero-glassbox-title', {
+                    y: 40,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power3.out'
+                });
+                gsap.from('.hero-glassbox-subtitle', {
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: 0.4,
+                    ease: 'power3.out'
+                });
+                gsap.from('.hero-glassbox-btn', {
+                    scale: 0.8,
+                    opacity: 0,
+                    duration: 0.7,
+                    delay: 0.8,
+                    ease: 'back.out(1.7)'
+                });
+                gsap.from('.hero-glassbox-cube', {
+                    x: 60,
+                    opacity: 0,
+                    duration: 1.1,
+                    delay: 0.5,
+                    ease: 'power3.out'
+                });
+            }
+        });
+
+        // Tambahkan GSAP animasi untuk infografik di bawah animasi hero
+        gsap.from('.dashboard-card', { y: 30, opacity: 0, duration: 0.8, delay: 0.5, ease: 'power3.out' });
+        gsap.from('.bar-chart rect', { scaleY: 0, transformOrigin: 'bottom', stagger: 0.1, duration: 0.7, delay: 0.7, ease: 'power3.out' });
+        gsap.from('.pie-chart', { scale: 0.7, opacity: 0, duration: 0.7, delay: 1, ease: 'back.out(1.7)' });
+        gsap.from('.small-cube', { y: 30, opacity: 0, duration: 0.7, delay: 1.2, ease: 'power3.out' });
+
+        // DYNAMIC HERO SECTION ENHANCED ANIMATIONS
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced micro-interactions for hero widgets
+            const heroWidgets = document.querySelectorAll('.hero-dynamic-widget');
+            
+            heroWidgets.forEach(widget => {
+                // Add subtle scale effect on hover
+                widget.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-12px) scale(1.02)';
+                    this.style.boxShadow = '0 12px 32px rgba(0,0,0,0.15)';
+                });
+                
+                widget.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.10)';
+                });
+                
+                // Add click ripple effect
+                widget.addEventListener('click', function(e) {
+                    const ripple = document.createElement('div');
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(0, 113, 227, 0.3);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                        z-index: 10;
+                    `;
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Enhanced button interactions
+            const heroBtn = document.querySelector('.hero-dynamic-btn');
+            if (heroBtn) {
+                heroBtn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05) translateY(-2px)';
+                    this.style.boxShadow = '0 12px 32px rgba(0, 113, 227, 0.3)';
+                });
+                
+                heroBtn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) translateY(0)';
+                    this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.10)';
+                });
+                
+                // Add magnetic effect
+                heroBtn.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    this.style.transform = `scale(1.05) translate(${x * 0.1}px, ${y * 0.1}px)`;
+                });
+            }
+
+            // Animate ROI line chart on scroll into view
+            const roiLine = document.querySelector('.hero-dynamic-roi-line');
+            if (roiLine) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            roiLine.style.animation = 'drawLine 1.2s ease-out forwards';
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                observer.observe(roiLine);
+            }
+
+            // Animate bar chart bars with stagger
+            const barRects = document.querySelectorAll('.hero-dynamic-bar-rect');
+            if (barRects.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            barRects.forEach((rect, index) => {
+                                setTimeout(() => {
+                                    rect.style.animation = `barGrow 0.8s ease-out ${1.4 + index * 0.1}s forwards`;
+                                }, index * 100);
+                            });
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                observer.observe(barRects[0].parentElement);
+            }
+
+            // Animate pie chart slices
+            const pieSlices = document.querySelectorAll('.hero-dynamic-pie-slice');
+            if (pieSlices.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            pieSlices.forEach((slice, index) => {
+                                setTimeout(() => {
+                                    slice.style.animation = `drawPie 1.0s ease-out ${1.8 + index * 0.2}s forwards`;
+                                }, index * 200);
+                            });
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                observer.observe(pieSlices[0].parentElement);
+            }
+
+            // Parallax effect for background blob
+            const heroBlob = document.querySelector('.hero-dynamic-blob');
+            if (heroBlob) {
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    const rate = scrolled * 0.3;
+                    heroBlob.style.transform = `translate(-50%, calc(-50% + ${rate}px)) scale(1)`;
+                });
+            }
+
+            // Add smooth reveal animation for hero content
+            const heroLeft = document.querySelector('.hero-dynamic-left');
+            if (heroLeft) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.animation = 'fadeInUp 0.8s ease-out 0.2s forwards';
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                observer.observe(heroLeft);
+            }
+        });
+
+        // Add ripple animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // MATRIX DATA STREAM GENERATOR
+        function createMatrixStream() {
+            const matrixContainer = document.getElementById('matrix-container');
+            if (!matrixContainer) return;
+
+            // Matrix characters (professional data stream)
+            const matrixChars = '0123456789:. -|/\\';
+            
+            // Number of columns to create
+            const numColumns = window.innerWidth > 768 ? 10 : window.innerWidth > 480 ? 5 : 2;
+            
+            // Clear existing columns
+            matrixContainer.innerHTML = '';
+            
+            for (let i = 0; i < numColumns; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                
+                // Generate random characters for this column
+                const columnLength = Math.floor(Math.random() * 20) + 15; // 15-35 characters
+                for (let j = 0; j < columnLength; j++) {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-character';
+                    char.textContent = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                    
+                    // Random animation delay for each character
+                    char.style.animationDelay = `${Math.random() * 2}s`;
+                    char.style.animationDuration = `${Math.random() * 3 + 2}s`; // 2-5s
+                    
+                    column.appendChild(char);
+                }
+                
+                matrixContainer.appendChild(column);
+            }
+        }
+
+        // Initialize matrix stream on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createMatrixStream();
+            
+            // Recreate matrix stream on window resize
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(createMatrixStream, 300);
+            });
+        });
+
+        // Update matrix characters periodically for more dynamic effect
+        function updateMatrixCharacters() {
+            const matrixChars = document.querySelectorAll('.matrix-character');
+            const matrixCharSet = '0123456789:. -|/\\';
+            
+            matrixChars.forEach(char => {
+                // Randomly update some characters
+                if (Math.random() < 0.1) { // 10% chance to update
+                    char.textContent = matrixCharSet[Math.floor(Math.random() * matrixCharSet.length)];
+                }
+            });
+        }
+
+        // Update characters every 2 seconds
+        setInterval(updateMatrixCharacters, 2000);
+
+        // === 3D FLOATING CUBES (Three.js) ===
+        (function() {
+            if (!window.THREE) return;
+            const canvas = document.getElementById('hero-3d-canvas');
+            if (!canvas) return;
+
+            // Scene, Camera, Renderer
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, 400 / 300, 0.1, 100);
+            camera.position.z = 7;
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(400, 300);
+            renderer.setClearColor(0x000000, 0);
+
+            // Group for all cubes
+            const group = new THREE.Group();
+            scene.add(group);
+
+            // Cube materials
+            const materials = [
+                new THREE.MeshPhongMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.8 }),
+                new THREE.MeshPhongMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.7 }),
+                new THREE.MeshPhongMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.9 }),
+            ];
+
+            // Create cubes
+            for (let i = 0; i < 6; i++) {
+                const geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+                const material = materials[i % materials.length];
+                const cube = new THREE.Mesh(geometry, material);
+                cube.position.set(
+                    (Math.random() - 0.5) * 5,
+                    (Math.random() - 0.5) * 3,
+                    (Math.random() - 0.5) * 3
+                );
+                cube.rotation.set(
+                    Math.random() * Math.PI,
+                    Math.random() * Math.PI,
+                    Math.random() * Math.PI
+                );
+                group.add(cube);
+            }
+
+            // Lighting
+            scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(5, 5, 5);
+            scene.add(dirLight);
+
+            // Mouse tracking for group movement and rotation
+            let targetRotX = 0, targetRotY = 0;
+            let targetPosX = 0, targetPosY = 0;
+            let currentRotX = 0, currentRotY = 0;
+            let currentPosX = 0, currentPosY = 0;
+            
+            const heroSection = document.getElementById('hero-dynamic-3d');
+            if (heroSection) {
+                heroSection.addEventListener('mousemove', function(e) {
+                    const rect = heroSection.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    // Calculate target position (cube follows mouse)
+                    targetPosX = (x / (rect.width / 2)) * 3; // Move range: -3 to 3
+                    targetPosY = (y / (rect.height / 2)) * -2; // Move range: -2 to 2
+                    
+                    // Calculate target rotation (tilt effect)
+                    targetRotY = (x / (rect.width / 2)) * 0.3;
+                    targetRotX = (y / (rect.height / 2)) * -0.2;
+                });
+            }
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Animate individual cubes
+                group.children.forEach(function(cube, idx) {
+                    cube.rotation.x += 0.01 + idx * 0.002;
+                    cube.rotation.y += 0.01 + idx * 0.003;
+                    cube.position.y += Math.sin(Date.now() * 0.001 + idx) * 0.002;
+                });
+                
+                // Smooth group movement (follow mouse)
+                currentPosX += (targetPosX - currentPosX) * 0.05;
+                currentPosY += (targetPosY - currentPosY) * 0.05;
+                group.position.x = currentPosX;
+                group.position.y = currentPosY;
+                
+                // Smooth group rotation (tilt effect)
+                currentRotX += (targetRotX - currentRotX) * 0.08;
+                currentRotY += (targetRotY - currentRotY) * 0.08;
+                group.rotation.x = currentRotX;
+                group.rotation.y = currentRotY;
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+        })();
+    </script>
+</body>
+</html>
