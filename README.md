@@ -13,7 +13,7 @@ Aplikasi analisis kelayakan bisnis profesional dengan fitur keuangan lengkap, di
 - **Biaya Tetap**: Sewa, gaji, utilities, marketing, dll
 - **Biaya Variabel**: Bahan baku, kemasan, komisi per unit
 - **Kalkulasi Otomatis**: Total biaya dan BEP real-time
-- **CRUD Operations**: Tambah, edit, hapus biaya dengan mudah
+- **CRUD Operations**: Tambah, edit, hapus biaya dengan mudah    
 
 ### 📊 Kalkulator Keuangan Pro
 - **ROI (Return on Investment)**: Perhitungan akurat dengan benchmark industri
