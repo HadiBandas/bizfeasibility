@@ -18,7 +18,7 @@ Aplikasi analisis kelayakan bisnis profesional dengan fitur keuangan lengkap, di
 ### 📊 Kalkulator Keuangan Pro
 - **ROI (Return on Investment)**: Perhitungan akurat dengan benchmark industri
 - **IRR (Internal Rate of Return)**: Menggunakan metode Newton-Raphson
-- **Payback Period**: Waktu balik modal dalam tahun (support pecahan)
+- **Payback Period**: Waktu balik modal dalam tahun (support pecahan)  
 - **BEP (Break Even Point)**: Jumlah unit untuk mencapai titik impas
 - **Gross/Net Margin**: Margin kotor dan bersih dengan visualisasi
 
