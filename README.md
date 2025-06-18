@@ -191,9 +191,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📞 Kontak
 
-- **Email**: contact@bizfeasibility.com
+- **Email**: mahasinhadiyatulloh@gmail.com
 - **Website**: https://bizfeasibility.com
-- **GitHub**: https://github.com/your-username/bizfeasibility-pro
+- **GitHub**: https://github.com/hadibandas/bizfeasibility-pro
 
 ## 🙏 Acknowledgments
 
